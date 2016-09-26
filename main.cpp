@@ -52,7 +52,7 @@ void parse_command_line_options(int argc, char *argv[], Mode &mode, bool &numeri
 
 int main(int argc, char *argv[]) {
     Mode mode = MODE_STL;
-    bool numeric = true;
+    bool numeric = false;
     List data;
     std::string line;
 

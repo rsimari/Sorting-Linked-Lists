@@ -24,6 +24,7 @@ void merge_sort(List &l, bool numeric) {
   Node* newHead;
   if (numeric) newHead = msort(l.head, compare_numeric);
   else newHead = msort(l.head, compare_string);
+  l.head = newHead; 
 }
 
 Node *msort(Node *head, CompareFunction compare) {
@@ -33,9 +34,7 @@ Node *msort(Node *head, CompareFunction compare) {
   split(head, l, r);
   l = msort(l, compare);
   r = msort(r, compare);
-  Node* res = merge(l, r, compare);
-  std::cout << res->number << std::endl;
-  return res;
+  return merge(l, r, compare);
 }
 
 void split(Node *head, Node *&left, Node *&right) {
@@ -60,7 +59,11 @@ void split(Node *head, Node *&left, Node *&right) {
 
 Node *merge(Node *left, Node *right, CompareFunction compare) {
   Node *head = (compare(left, right)) ? right : left;
+  if (head == left) left = left->next;
+  else right = right->next;
   Node *curr = head;
+
+
   while (left != nullptr && right != nullptr) {
     if (compare(left, right)) {
       curr->next = right;
@@ -71,7 +74,6 @@ Node *merge(Node *left, Node *right, CompareFunction compare) {
       curr->next = left;
       left = left->next;
       curr = curr->next;
-
     }
 
   }
