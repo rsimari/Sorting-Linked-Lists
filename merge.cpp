@@ -34,7 +34,7 @@ Node *msort(Node *head, CompareFunction compare) {
   l = msort(l, compare);
   r = msort(r, compare);
   Node* res = merge(l, r, compare);
-  std::cout << res->number << std::endl;
+  // std::cout << res->number << std::endl;
   return res;
 }
 
@@ -60,6 +60,8 @@ void split(Node *head, Node *&left, Node *&right) {
 
 Node *merge(Node *left, Node *right, CompareFunction compare) {
   Node *head = (compare(left, right)) ? right : left;
+  if (head == left) left = left->next;
+  else right = right->next;
   Node *curr = head;
   while (left != nullptr && right != nullptr) {
     if (compare(left, right)) {
@@ -71,9 +73,7 @@ Node *merge(Node *left, Node *right, CompareFunction compare) {
       curr->next = left;
       left = left->next;
       curr = curr->next;
-
     }
-
   }
 
   if (left != nullptr) curr->next = left;
