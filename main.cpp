@@ -13,7 +13,7 @@ void usage(int status) {
     std::cout << "usage: lsort" << std::endl
               << "    -m MODE   Sorting mode (stl, qsort, merge, quick)" << std::endl
               << "    -n        Perform numerical ordering"              << std::endl;
-    
+
     exit(status);
 }
 
@@ -55,14 +55,14 @@ int main(int argc, char *argv[]) {
     bool numeric = false;
     List data;
     std::string line;
-    
+
     parse_command_line_options(argc, argv, mode, numeric);
 
     while (std::getline(std::cin, line)) {
         data.push_front(line);
     }
 
-    switch (mode) {
+    /*switch (mode) {
         case MODE_STL:
             stl_sort(data, numeric);
             break;
@@ -76,7 +76,8 @@ int main(int argc, char *argv[]) {
             quick_sort(data, numeric);
             break;
     }
-
+*/
+    merge_sort(data, numeric);
     for (auto curr = data.head; curr != nullptr; curr = curr->next) {
         if (numeric) {
             std::cout << curr->number << std::endl;
