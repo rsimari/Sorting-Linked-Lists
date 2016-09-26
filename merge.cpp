@@ -13,31 +13,74 @@ Node *merge(Node *left, Node *right, CompareFunction compare);
 // Implementations
 
 bool compare_numeric(const Node* a, const Node* b) {
-
-
-
+  return a->number > b->number;
 }
 
 bool compare_string(const Node* a, const Node* b) {
-
-
-
+  return a->string > b->string;
 }
 
 void merge_sort(List &l, bool numeric) {
   Node* newHead;
   if (numeric) newHead = msort(l.head, compare_numeric);
-  else newHead = msort(l.head, compare_string); 
-
+  else newHead = msort(l.head, compare_string);
 }
 
 Node *msort(Node *head, CompareFunction compare) {
+  if (head->next == nullptr) return head;
+  Node *l, *r;
+
+  split(head, l, r);
+  l = msort(l, compare);
+  r = msort(r, compare);
+  Node* res = merge(l, r, compare);
+  std::cout << res->number << std::endl;
+  return res;
 }
 
 void split(Node *head, Node *&left, Node *&right) {
+  //split list based on double pointer trick
+  Node* first = head;
+  Node* second = head;
+
+  while ( second != nullptr && second->next != nullptr) {
+    first = first->next;
+    second = second->next->next;
+  }
+
+
+  Node *third = head;
+  while (third->next != first) third = third->next;
+  third->next = nullptr;
+
+  left = head;
+  right = first;
+
 }
 
 Node *merge(Node *left, Node *right, CompareFunction compare) {
+  Node *head = (compare(left, right)) ? right : left;
+  Node *curr = head;
+  while (left != nullptr && right != nullptr) {
+    if (compare(left, right)) {
+      curr->next = right;
+      right = right->next;
+      curr = curr->next;
+    }
+    else {
+      curr->next = left;
+      left = left->next;
+      curr = curr->next;
+
+    }
+
+  }
+
+  if (left != nullptr) curr->next = left;
+  else curr->next = right;
+
+  return head;
+
 }
 
 // vim: set sts=4 sw=4 ts=8 expandtab ft=cpp:
