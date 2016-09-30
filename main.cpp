@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
             break;
     }
 */
-    merge_sort(data, numeric);
+    quick_sort(data, numeric);
     for (auto curr = data.head; curr != nullptr; curr = curr->next) {
         if (numeric) {
             std::cout << curr->number << std::endl;
